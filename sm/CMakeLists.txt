@@ -1,6 +1,3 @@
-PROJECT (CSM C CXX)
-
-
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/lib)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR})
@@ -82,7 +79,7 @@ SUBDIRS(csm)
 MACRO(new_executable exec)
 	ADD_EXECUTABLE(${exec} apps/${exec}.c)
 	TARGET_LINK_LIBRARIES(${exec} csm-static ${csm_link_flags})
-	INSTALL(TARGETS ${exec} DESTINATION bin)
+	# INSTALL(TARGETS ${exec} DESTINATION bin)
 ENDMACRO(new_executable exec)
 
 # new_executable(sm0)
@@ -192,11 +189,11 @@ ENDIF(CAIRO_FOUND)
 
 ADD_LIBRARY(csm-static STATIC ${csm_sources})
 TARGET_LINK_LIBRARIES(csm-static ${csm_link_flags})
-INSTALL(TARGETS csm-static ARCHIVE DESTINATION lib)
+# INSTALL(TARGETS csm-static ARCHIVE DESTINATION lib)
 
 ADD_LIBRARY(csm SHARED ${csm_sources})
 TARGET_LINK_LIBRARIES(csm ${csm_link_flags})
-INSTALL(TARGETS csm ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+# INSTALL(TARGETS csm ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
 
 
 IF(COMPILE_HSM)
@@ -207,7 +204,7 @@ LINK_DIRECTORIES(/sw/lib)
 ADD_EXECUTABLE(hsm_test00 ./csm/hsm/hsm_test00.c ./csm/hsm/hsm.c)
 #TARGET_LINK_LIBRARIES(hsm_test00 csm-static ${csm_link_flags} pgm pnm pbm)
 	TARGET_LINK_LIBRARIES(hsm_test00 csm-static ${csm_link_flags} netpbm)
-INSTALL(PROGRAMS hsm_test00 DESTINATION bin)
+# INSTALL(PROGRAMS hsm_test00 DESTINATION bin)
 
 ENDIF(COMPILE_HSM)
 
@@ -238,3 +235,12 @@ foreach(header ${csm_headers} ${lib_headers})
 	
 endforeach(header ${csm_headers} ${lib_headers})
 endif(0)
+
+install(
+  TARGETS csm csm-static
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+)
+install(DIRECTORY include/${PROJECT_NAME}/
+        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
