@@ -27,7 +27,11 @@ void sm_options(struct sm_params*p, struct option*ops) {
 	options_double(ops, "max_correspondence_dist", 
 		&(p->max_correspondence_dist), 2.0,
 		"dubious parameter (m)");
-		
+
+	options_double(ops, "min_num_correspondences", 
+		&(p->min_num_correspondences), 20,
+		"minimum required number of correspondences");
+
 	options_double(ops, "sigma", 
 		&(p->sigma), 0.01,
 		"Noise in the scan (m)");

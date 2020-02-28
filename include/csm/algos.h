@@ -34,6 +34,8 @@ struct sm_params {
 	double max_correspondence_dist;
 	/** Use smart tricks for finding correspondences. Only influences speed; not convergence. */
 	int use_corr_tricks;
+        /** Minimum required number of correspondences, bail out if have less. */
+        unsigned int min_num_correspondences;
 	
 	/** Restart if error under threshold (0 or 1)*/
 	int restart;
