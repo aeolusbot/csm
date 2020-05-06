@@ -2,7 +2,7 @@
 #include <string.h>
 
 //#include <gsl/gsl_matrix.h>
-#include <gsl_eigen/gsl_eigen.h>
+#include <csm/gsl_eigen.h>
 #include <gpc/gpc.h>
 #include <egsl/egsl_macros.h>
 

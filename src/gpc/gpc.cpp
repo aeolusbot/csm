@@ -7,7 +7,7 @@
 //#include <gsl/gsl_matrix.h>
 #include "gpc.h"
 #include "gpc_utils.h"
-#include <gsl_eigen/gsl_eigen.h>
+#include <csm/gsl_eigen.h>
 #include <stdio.h>
 #include <vector>
 using namespace std;

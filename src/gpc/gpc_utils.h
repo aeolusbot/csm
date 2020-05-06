@@ -6,7 +6,7 @@
 //#include <gsl/gsl_linalg.h>
 //#include <gsl/gsl_poly.h>
 
-#include <gsl_eigen/gsl_eigen.h>
+#include <csm/gsl_eigen.h>
 
 /* The GSL is a pain to work with. The library DOES NOT HAVE a determinant() function
   or an inv() function: you have to write your own routines. */
