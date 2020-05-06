@@ -1,0 +1,4 @@
+@PACKAGE_INIT@
+
+get_filename_component(CSM_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+include("${CSM_CMAKE_DIR}/csm-targets.cmake")
