@@ -1,7 +1,3 @@
-cmake_minimum_required(VERSION 2.6)
-
-PROJECT(csm_eigen)
-
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_C_FLAGS_RELEASE "-O3")
 
