@@ -66,6 +66,8 @@ ADD_LIBRARY(csm
 	${ICP_SRC}
 	${OPTIONS_SRC})
 
+set_property(TARGET csm PROPERTY POSITION_INDEPENDENT_CODE ON)
+
 target_include_directories(csm
   PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
