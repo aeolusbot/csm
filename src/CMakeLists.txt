@@ -59,7 +59,7 @@ SET(OPTIONS_SRC
    options/options.cpp
    options/options_interface.cpp)
 
-ADD_LIBRARY(csm_eigen
+ADD_LIBRARY(csm
 	${CSM_SRC}
 	${EGSL_SRC} 
 	${GPC_SRC}
