@@ -129,6 +129,11 @@ struct sm_params {
 };
 
 
+struct sm_reason {
+	/** Human readable description of outcomes */
+	char what[1024];
+};
+
 struct sm_result {
 	/** 1 if the result is valid */
 	int valid;
@@ -142,7 +147,10 @@ struct sm_result {
 	int nvalid;
 	/** Total correspondence error */
 	double error;
-	
+
+	/** Human readable description of failures, empty if no one */
+	sm_reason reason;
+
 	/** Fields used for covariance computation */
 	#ifndef RUBY
 		gsl_matrix *cov_x_m;	

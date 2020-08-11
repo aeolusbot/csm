@@ -28,7 +28,9 @@ void ld_invalid_if_outside(LDP ld, double min_reading, double max_reading) {
 }
 
 void sm_icp(struct sm_params*params, struct sm_result*res) {
+	sm_reason reason;
 	res->valid = 0;
+	res->reason.what[0] = 0;
 
 	LDP laser_ref  = params->laser_ref;
 	LDP laser_sens = params->laser_sens;
@@ -85,11 +87,12 @@ void sm_icp(struct sm_params*params, struct sm_result*res) {
 	double error;
 	int iterations;
 	int nvalid;
-	if(!icp_loop(params, x_old->data(), x_new->data(), &error, &nvalid, &iterations)) {
-		sm_error("icp: ICP failed for some reason. \n");
+	if(!icp_loop(params, x_old->data(), x_new->data(), &error, &nvalid, &iterations, &reason)) {
+		//sm_error("icp: ICP failed for some reason. \n");
 		res->valid = 0;
 		res->iterations = iterations;
 		res->nvalid = 0;
+		snprintf(res->reason.what, sizeof(res->reason.what), "ICP failed: %s", reason.what);
 	} else {
 		/* It was succesfull */
 		
@@ -121,8 +124,9 @@ void sm_icp(struct sm_params*params, struct sm_result*res) {
 					gvs(start, 2, gvg(x_new,2)+perturb[a][2]);
 				gsl_vector * x_a = gsl_vector_alloc(3);
 				double my_error; int my_valid; int my_iterations;
-				if(!icp_loop(&my_params, start->data(), x_a->data(), &my_error, &my_valid, &my_iterations)){
-					sm_error("Error during restart #%d/%d. \n", a, 6);
+				if(!icp_loop(&my_params, start->data(), x_a->data(), &my_error, &my_valid, &my_iterations, &reason)){
+					//sm_error("Error during restart #%d/%d. \n", a, 6);
+					snprintf(res->reason.what, sizeof(res->reason.what), "Error during restart #%d/%d, due: %s", a, 6, reason.what);
 					break;
 				}
 				iterations+=my_iterations;

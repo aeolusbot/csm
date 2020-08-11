@@ -12,7 +12,7 @@
 #include <vector>
 
 int icp_loop(struct sm_params*params, const double*q0, double*x_new, 
-	double*total_error, int*valid, int*iterations) {
+	double*total_error, int*valid, int*iterations, sm_reason*reason) {
 	if(any_nan(q0,3)) {
 		sm_error("icp_loop: Initial pose contains nan: %s\n", friendly_pose(q0));
 		return 0;
@@ -52,7 +52,8 @@ int icp_loop(struct sm_params*params, const double*q0, double*x_new,
 		/* If not many correspondences, bail out */
 		int num_corr = ld_num_valid_correspondences(laser_sens);
 		if(num_corr < params->min_num_correspondences) {
-			sm_error("	: before trimming, only %d correspondences.\n",num_corr);
+			//sm_error("	: before trimming, only %d correspondences.\n",num_corr);
+			snprintf(reason->what, sizeof(reason->what), "before trimming, only %d correspondences.", num_corr);
 			all_is_okay = 0;
 			egsl_pop_named("icp_loop iteration"); /* loop context */
 			break;
@@ -76,7 +77,8 @@ int icp_loop(struct sm_params*params, const double*q0, double*x_new,
 		
 		/* If not many correspondences, bail out */
 		if(num_corr_after < params->min_num_correspondences){
-			sm_error("  icp_loop: failed: after trimming, only %d correspondences.\n",num_corr_after);
+			//sm_error("  icp_loop: failed: after trimming, only %d correspondences.\n",num_corr_after);
+			snprintf(reason->what, sizeof(reason->what), "after trimming, only %d correspondences.", num_corr);
 			all_is_okay = 0;
 			egsl_pop_named("icp_loop iteration"); /* loop context */
 			break;
@@ -84,7 +86,8 @@ int icp_loop(struct sm_params*params, const double*q0, double*x_new,
 
 		/* Compute next estimate based on the correspondences */
 		if(!compute_next_estimate(params, x_old, x_new)) {
-			sm_error("  icp_loop: Cannot compute next estimate.\n");
+			//sm_error("  icp_loop: Cannot compute next estimate.\n");
+			snprintf(reason->what, sizeof(reason->what), "cannot compute next estimate.");
 			all_is_okay = 0;
 			egsl_pop_named("icp_loop iteration");
 			break;			
