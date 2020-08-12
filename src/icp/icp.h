@@ -10,7 +10,7 @@ void sm_icp(struct sm_params*params, struct sm_result*res);
 
 /** This is the meat */
 int icp_loop(struct sm_params*params, const double*q0, double*x_new, 
- 	double*total_error, int*nvalid, int*iterations);
+	double*total_error, int*nvalid, int*iterations, sm_reason*reason);
 
 /** This is the beef: computing in closed form the next estimate 
     given the correspondences. */
